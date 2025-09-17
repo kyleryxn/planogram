@@ -24,7 +24,7 @@ def ensure_changelog_has_version(version: str, dry_run: bool) -> None:
     text = CHANGELOG.read_text(encoding="utf-8")
 
     # Already present? Bail.
-    existing_version_pat = re.compile(rf'(?m)^##\s*(\[{re.escape(version)}\]|{re.escape(version)})(\s|$)')
+    existing_version_pat = re.compile(rf'(?m)^##\s*(\[{re.escape(version)}]|{re.escape(version)})(\s|$)' )
 
     if existing_version_pat.search(text):
         return

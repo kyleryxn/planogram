@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to 
-[Semantic Versioning](https://semver.org/), encoded according to 
-[PyPA Version Specifiers](https://packaging.python.org/specifications/version-specifiers/) 
+The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to
+[Semantic Versioning](https://semver.org/), encoded according to
+[PyPA Version Specifiers](https://packaging.python.org/specifications/version-specifiers/)
 (the canonical successor to [PEP 440](https://peps.python.org/pep-0440/)).
 
 Versioning policy:
@@ -18,5 +18,6 @@ Versioning policy:
 
 - _Unreleased features/changes here_
 
+## [0.1.0] - 2025-09-16
 
-
+- Initial release
