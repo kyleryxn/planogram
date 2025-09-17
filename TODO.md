@@ -3,8 +3,6 @@
 This file tracks the development progress of the **Planogram** project.
 Sections are divided into **To Do**, **In Progress**, and **Done**.
 
----
-
 ## 🚧 To Do
 - [ ] Implement user authentication (OAuth2 password flow)
 - [ ] Finalize Google OAuth redirect URIs for local and production
@@ -22,16 +20,12 @@ Sections are divided into **To Do**, **In Progress**, and **Done**.
 - [ ] Setup CI/CD pipeline with GitHub Actions (lint, test, format, changelog, version bump)
 - [ ] Document project structure and setup in `README.md`
 
----
-
 ## ⏳ In Progress
 - [ ] Centralized template mapping for Jinja2
 - [ ] Static files integration alongside templates
 - [ ] Database integration with SQLAlchemy + AsyncSession
 - [ ] View and query database with DataGrip (fix schema visibility/search path issues)
 - [ ] Calendar route: list user calendars and events in Jinja2
-
----
 
 ## ✅ Done
 - [x] Project structure setup (`planogram` package, package-by-feature layout)
