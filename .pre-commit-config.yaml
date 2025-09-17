@@ -1,0 +1,26 @@
+repos:
+  # General hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # Local policy hooks
+  - repo: local
+    hooks:
+      # Enforce Conventional Commits subject line
+      - id: commit-msg-conventional
+        name: Conventional Commits enforcement
+        entry: python scripts/validate_commit_msg.py
+        language: system
+        stages: [commit-msg]
+
+      # Enforce the branch name policy before each commit
+      - id: branch-name-policy
+        name: Branch name policy
+        entry: python scripts/check_branch_name.py
+        language: system
+        stages: [pre-commit]

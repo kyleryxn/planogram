@@ -1,0 +1,2 @@
+[alias]
+  wip = "!git add -A && git commit -m 'chore: wip'"
