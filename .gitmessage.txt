@@ -1,9 +1,9 @@
-# <type>(<scope>): <summary in imperative, <= 72 chars>
+# <type>(<scope>): <summary in imperative, <= 150 chars>
 #
 # Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
 # Scope: optional (module, package, feature), e.g., (calendar), (oauth), (db)
 #
-# Body (wrap at 72): Explain the WHY and key decisions. Include context,
+# Body (wrap at 150): Explain the WHY and key decisions. Include context,
 # trade-offs, and links to design docs or tickets.
 #
 # BREAKING CHANGE: <what changed + migration notes>

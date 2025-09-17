@@ -2,11 +2,11 @@
 Conventional Commits validator with actionable error messages.
 
 Enforces:
-  <type>(<scope>)?: <summary up to 100 chars>
+  <type>(<scope>)?: <summary up to 150 chars>
   - type in allowed list
   - optional scope: no trailing/leading spaces
   - optional breaking "!" after type/scope requires a BREAKING CHANGE: footer
-  - subject max length 100 chars
+  - subject max length 150 chars
 Allows:
   - Auto "Merge ..." commits (skipped)
   - Auto "Revert ..." commits (skipped)  # git-generated
