@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <h1>Calendar List</h1>
+    {% if calendars %}
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Calendar ID</th>
+            <th>Primary</th>
+            <th>Timezone</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cal in calendars %}
+        <tr>
+            <td>{{ cal.summary or "(no name)" }}</td>
+            <td><code>{{ cal.id }}</code></td>
+            <td>{{ "Yes" if cal.primary else "No" }}</td>
+            <td>{{ cal.timeZone or "—" }}</td>
+            <td><a href="/calendar/events?calendar_id={{ cal.id | urlencode }}">View events</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No calendars were found.</p>
+    {% endif %}
+
+</body>
+</html>

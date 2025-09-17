@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    {% if events %}
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Location</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in events %}
+        <tr>
+            <td>{{ e.summary or "(no title)" }}</td>
+            <td>{{ e.start }}</td>
+            <td>{{ e.end }}</td>
+            <td>{{ e.location }}</td>
+            <td>{% if e.htmlLink %}<a href="{{ e.htmlLink }}" target="_blank" rel="noopener">Open</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No events.</p>
+    {% endif %}
+
+</body>
+</html>
