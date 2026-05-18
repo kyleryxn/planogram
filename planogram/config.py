@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     google_oauth_credentials_path: Path = Path("credentials/oauth-client.json")
     google_token_path: Path = Path("credentials/token.json")
     google_calendar_id: str = "primary"
-    timezone: str = "America/Chicago"
+    timezone: str = "America/New_York"
     google_maps_api_key: str = ""
     google_oauth_redirect_uri: str = "http://localhost:8080/auth/callback"
 

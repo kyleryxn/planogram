@@ -433,6 +433,12 @@ table td.del-cell {
 .upload-wrap h2 {
   text-align: center;
 }
+.upload-wrap .alert {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .upload-form {
   display: flex;
@@ -469,6 +475,36 @@ table td.del-cell {
 }
 .upload-form .btn-primary {
   align-self: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loading-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.loading-state.visible {
+  display: flex;
+}
+
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  color: #108AB5;
+  animation: spin 0.9s linear infinite;
+}
+
+.loading-msg {
+  color: #9B9490;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
 }
 
 .review-header {

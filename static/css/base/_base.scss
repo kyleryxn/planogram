@@ -1,7 +1,7 @@
 @use '../abstracts/variables' as *;
 
 body {
-    font-family: 'Noto Sans', system-ui, sans-serif;
+    font-family: $font-body;
     max-width: $max-width;
     margin: 0 auto;
     padding: 1.5rem 1rem 3rem;
