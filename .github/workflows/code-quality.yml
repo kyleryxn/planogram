@@ -21,7 +21,7 @@ jobs:
         run: pip install poetry
 
       - name: Install dependencies
-        run: poetry lock --no-update && poetry install
+        run: poetry lock && poetry install
 
       - name: Lint with ruff
         run: poetry run ruff check .
