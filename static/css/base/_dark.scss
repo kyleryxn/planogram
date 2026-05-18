@@ -1,0 +1,140 @@
+// Dark mode — roles reassigned from the light palette:
+// charcoal-brown (#3E3B37): was text → now surface/borders
+// dust-grey (#DAD7D5):      was borders → now text
+// rosy-granite (#9B9490):   muted — unchanged, works on both
+// ocean-blue (#108AB5):     primary — unchanged
+
+$dk-bg:              #1e1c1a; // darker than charcoal-brown — page canvas
+$dk-surface:         #2a2825; // table cells, inputs
+$dk-alt-row:         #242220; // alternating table rows
+$dk-border:          #3E3B37; // charcoal-brown — now the border
+$dk-text:            #e8e5e2; // warm light grey — readable on dark canvas
+$dk-muted:           #9B9490; // rosy-granite — unchanged
+$dk-secondary-bg:    #3E3B37; // charcoal-brown
+$dk-secondary-hover: #4a4742; // charcoal-brown lightened
+
+@mixin dark-theme {
+    & {
+        background: $dk-bg;
+    }
+
+    body {
+        background: $dk-bg;
+        color: $dk-text;
+    }
+
+    header .tagline {
+        color: $dk-muted;
+    }
+
+    .theme-toggle {
+        color: $dk-muted;
+
+        &:hover {
+            color: $dk-text;
+        }
+
+        .icon-sun {
+            display: block;
+        }
+
+        .icon-moon {
+            display: none;
+        }
+    }
+
+    table {
+        background: $dk-surface;
+
+        // th reuses charcoal-brown bg + dust-grey text — identical to light mode, no override needed
+
+        td {
+            border-color: $dk-border;
+
+            &.num {
+                color: $dk-muted;
+            }
+        }
+
+        td.del-cell {
+            border-color: $dk-border;
+        }
+
+        tr:nth-child(even) td {
+            background: $dk-alt-row;
+        }
+    }
+
+    input[type='text'],
+    input[type='date'],
+    input[type='time'] {
+        background: $dk-surface;
+        color: $dk-text;
+        border-color: $dk-border;
+
+        &::placeholder {
+            color: $dk-muted;
+        }
+    }
+
+    select {
+        background: $dk-surface;
+        color: $dk-text;
+        border-color: $dk-border;
+    }
+
+    .btn-secondary {
+        background: $dk-secondary-bg;
+        color: $dk-text;
+
+        &:hover {
+            background: $dk-secondary-hover;
+        }
+    }
+
+    .alert-error {
+        background: #450a0a;
+        color: #fca5a5;
+        border-color: #7f1d1d;
+    }
+
+    .alert-warn {
+        background: #422006;
+        color: #fde68a;
+        border-color: #78350f;
+    }
+
+    .ocr-details pre {
+        background: #161513;
+        border-color: $dk-border;
+    }
+
+    .swatch.active {
+        outline-color: $dk-text;
+    }
+
+    .file-chosen,
+    .loading-msg,
+    .hint,
+    .meta {
+        color: $dk-muted;
+    }
+
+    .label-optional {
+        color: $dk-muted;
+    }
+
+    footer {
+        border-top-color: $dk-border;
+    }
+}
+
+html[data-theme='dark'] {
+    @include dark-theme;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme='light']) {
+        @include dark-theme;
+    }
+}

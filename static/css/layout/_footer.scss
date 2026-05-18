@@ -1,0 +1,35 @@
+@use '../abstracts/variables' as *;
+
+footer {
+    margin-top: 3rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid $color-border;
+    text-align: center;
+
+    p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: $color-muted;
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        vertical-align: middle;
+        color: $color-primary;
+        text-decoration: none;
+        transition: color 0.2s;
+
+        &:hover {
+            color: $steel-blue;
+        }
+    }
+
+    .anthropic-logo {
+        width: 0.85rem;
+        height: 0.85rem;
+        flex-shrink: 0;
+        color: #D97757;
+    }
+}
