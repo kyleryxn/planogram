@@ -9,7 +9,8 @@
       "Bash(poetry run *)",
       "Bash(poetry remove *)",
       "WebFetch(domain:lucide.dev)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:cdn.simpleicons.org)"
     ]
   }
 }

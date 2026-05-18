@@ -1,4 +1,5 @@
 import json
+from datetime import timedelta
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
@@ -61,6 +62,13 @@ async def confirm(request: Request):
             )
         )
         index += 1
+
+    repeat_weeks = int(form.get("repeat_weeks", 0) or 0)
+    if repeat_weeks > 0:
+        base_events = events[:]
+        for week in range(1, repeat_weeks + 1):
+            for event in base_events:
+                events.append(event.model_copy(update={"date": event.date + timedelta(weeks=week)}))
 
     try:
         creds = cal_service.get_credentials(

@@ -26,3 +26,36 @@ header {
         font-size: 0.9rem;
     }
 }
+
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: $radius;
+    color: $color-muted;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+
+    svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        display: block;
+    }
+
+    &:hover {
+        color: $color-text;
+    }
+
+    .icon-sun {
+        display: none;
+    }
+
+    .icon-moon {
+        display: block;
+    }
+}

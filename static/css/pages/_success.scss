@@ -38,9 +38,10 @@
         color: $color-primary;
         text-decoration: none;
         font-weight: 500;
+        transition: color 0.2s;
 
         &:hover {
-            text-decoration: underline;
+            color: $steel-blue;
         }
 
         svg {

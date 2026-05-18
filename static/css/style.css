@@ -206,6 +206,189 @@ h2 {
   margin-top: 0;
 }
 
+html[data-theme=dark] {
+  background: #1e1c1a;
+}
+html[data-theme=dark] body {
+  background: #1e1c1a;
+  color: #e8e5e2;
+}
+html[data-theme=dark] header .tagline {
+  color: #9B9490;
+}
+html[data-theme=dark] .theme-toggle {
+  color: #9B9490;
+}
+html[data-theme=dark] .theme-toggle:hover {
+  color: #e8e5e2;
+}
+html[data-theme=dark] .theme-toggle .icon-sun {
+  display: block;
+}
+html[data-theme=dark] .theme-toggle .icon-moon {
+  display: none;
+}
+html[data-theme=dark] table {
+  background: #2a2825;
+}
+html[data-theme=dark] table td {
+  border-color: #3E3B37;
+}
+html[data-theme=dark] table td.num {
+  color: #9B9490;
+}
+html[data-theme=dark] table td.del-cell {
+  border-color: #3E3B37;
+}
+html[data-theme=dark] table tr:nth-child(even) td {
+  background: #242220;
+}
+html[data-theme=dark] input[type=text],
+html[data-theme=dark] input[type=date],
+html[data-theme=dark] input[type=time] {
+  background: #2a2825;
+  color: #e8e5e2;
+  border-color: #3E3B37;
+}
+html[data-theme=dark] input[type=text]::placeholder,
+html[data-theme=dark] input[type=date]::placeholder,
+html[data-theme=dark] input[type=time]::placeholder {
+  color: #9B9490;
+}
+html[data-theme=dark] select {
+  background: #2a2825;
+  color: #e8e5e2;
+  border-color: #3E3B37;
+}
+html[data-theme=dark] .btn-secondary {
+  background: #3E3B37;
+  color: #e8e5e2;
+}
+html[data-theme=dark] .btn-secondary:hover {
+  background: #4a4742;
+}
+html[data-theme=dark] .alert-error {
+  background: #450a0a;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+html[data-theme=dark] .alert-warn {
+  background: #422006;
+  color: #fde68a;
+  border-color: #78350f;
+}
+html[data-theme=dark] .ocr-details pre {
+  background: #161513;
+  border-color: #3E3B37;
+}
+html[data-theme=dark] .swatch.active {
+  outline-color: #e8e5e2;
+}
+html[data-theme=dark] .file-chosen,
+html[data-theme=dark] .loading-msg,
+html[data-theme=dark] .hint,
+html[data-theme=dark] .meta {
+  color: #9B9490;
+}
+html[data-theme=dark] .label-optional {
+  color: #9B9490;
+}
+html[data-theme=dark] footer {
+  border-top-color: #3E3B37;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme=light]) {
+    background: #1e1c1a;
+  }
+  html:not([data-theme=light]) body {
+    background: #1e1c1a;
+    color: #e8e5e2;
+  }
+  html:not([data-theme=light]) header .tagline {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) .theme-toggle {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) .theme-toggle:hover {
+    color: #e8e5e2;
+  }
+  html:not([data-theme=light]) .theme-toggle .icon-sun {
+    display: block;
+  }
+  html:not([data-theme=light]) .theme-toggle .icon-moon {
+    display: none;
+  }
+  html:not([data-theme=light]) table {
+    background: #2a2825;
+  }
+  html:not([data-theme=light]) table td {
+    border-color: #3E3B37;
+  }
+  html:not([data-theme=light]) table td.num {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) table td.del-cell {
+    border-color: #3E3B37;
+  }
+  html:not([data-theme=light]) table tr:nth-child(even) td {
+    background: #242220;
+  }
+  html:not([data-theme=light]) input[type=text],
+  html:not([data-theme=light]) input[type=date],
+  html:not([data-theme=light]) input[type=time] {
+    background: #2a2825;
+    color: #e8e5e2;
+    border-color: #3E3B37;
+  }
+  html:not([data-theme=light]) input[type=text]::placeholder,
+  html:not([data-theme=light]) input[type=date]::placeholder,
+  html:not([data-theme=light]) input[type=time]::placeholder {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) select {
+    background: #2a2825;
+    color: #e8e5e2;
+    border-color: #3E3B37;
+  }
+  html:not([data-theme=light]) .btn-secondary {
+    background: #3E3B37;
+    color: #e8e5e2;
+  }
+  html:not([data-theme=light]) .btn-secondary:hover {
+    background: #4a4742;
+  }
+  html:not([data-theme=light]) .alert-error {
+    background: #450a0a;
+    color: #fca5a5;
+    border-color: #7f1d1d;
+  }
+  html:not([data-theme=light]) .alert-warn {
+    background: #422006;
+    color: #fde68a;
+    border-color: #78350f;
+  }
+  html:not([data-theme=light]) .ocr-details pre {
+    background: #161513;
+    border-color: #3E3B37;
+  }
+  html:not([data-theme=light]) .swatch.active {
+    outline-color: #e8e5e2;
+  }
+  html:not([data-theme=light]) .file-chosen,
+  html:not([data-theme=light]) .loading-msg,
+  html:not([data-theme=light]) .hint,
+  html:not([data-theme=light]) .meta {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) .label-optional {
+    color: #9B9490;
+  }
+  html:not([data-theme=light]) footer {
+    border-top-color: #3E3B37;
+  }
+}
 header {
   display: flex;
   flex-direction: column;
@@ -228,6 +411,65 @@ header .tagline {
   margin: 0.2rem 0 0;
   color: #9B9490;
   font-size: 0.9rem;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
+  color: #9B9490;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.theme-toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+}
+.theme-toggle:hover {
+  color: #3E3B37;
+}
+.theme-toggle .icon-sun {
+  display: none;
+}
+.theme-toggle .icon-moon {
+  display: block;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #DAD7D5;
+  text-align: center;
+}
+footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9B9490;
+}
+footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  vertical-align: middle;
+  color: #108AB5;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+footer a:hover {
+  color: #60A4C2;
+}
+footer .anthropic-logo {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  color: #D97757;
 }
 
 .btn-secondary, .btn-primary {
@@ -520,6 +762,8 @@ table td.del-cell {
 .bulk-name {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
 }
@@ -531,8 +775,22 @@ table td.del-cell {
   width: 16rem;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
 .req {
   color: #ef4444;
+}
+
+.req-note {
+  font-size: 0.8rem;
+  color: #9B9490;
+  margin: 0.4rem 0 0;
 }
 
 .ocr-details {
@@ -591,9 +849,10 @@ table td.del-cell {
   color: #108AB5;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s;
 }
 .event-links a:hover {
-  text-decoration: underline;
+  color: #60A4C2;
 }
 .event-links a svg {
   width: 0.9rem;
