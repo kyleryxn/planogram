@@ -31,3 +31,15 @@ This serves two purposes:
 - **Removed** for now removed features.
 - **Fixed** for any bug fixes.
 - **Security** in case of vulnerabilities.
+
+## Dependency Formatting (`pyproject.toml`)
+
+Use `>=` with a space between the package name and version.
+
+```toml
+"pydantic >= 2.13.4",
+"pillow >= 12.2.0",
+```
+
+- No parentheses around the version specifier.
+- Trailing comma on the last entry.
