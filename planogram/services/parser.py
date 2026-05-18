@@ -1,3 +1,16 @@
+"""Two-pass Claude AI pipeline for extracting calendar events from schedule images.
+
+Pass 1 (transcription): ``claude-opus-4-7`` reads the image column-by-column and
+produces a structured text representation of every shift it finds.
+
+Pass 2 (extraction): ``claude-sonnet-4-6`` converts that structured text into a
+validated JSON array of ``ScheduleEvent`` objects.
+
+Separating the passes lets the vision-capable Opus model focus purely on
+accurate reading while the faster Sonnet model handles the semantic mapping to
+a calendar schema.
+"""
+
 import base64
 import json
 
@@ -38,6 +51,17 @@ Schedule text:
 
 
 def _transcribe(client: Anthropic, image_source: dict) -> str:
+    """Send the schedule image to Claude Opus for column-by-column transcription.
+
+    Args:
+        client: Authenticated Anthropic client.
+        image_source: Base64-encoded image payload in the Anthropic messages API
+            format, including ``type``, ``media_type``, and ``data`` keys.
+
+    Returns:
+        Raw transcription text with ``DATE:`` headers and pipe-delimited shift
+        rows as described by ``TRANSCRIBE_PROMPT``.
+    """
     msg = client.messages.create(
         model="claude-opus-4-7",
         max_tokens=4096,
@@ -55,7 +79,16 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
 
 
 def _to_pipe_lines(column_text: str) -> list[str]:
-    """Convert column-format output to NAME | DATE | START | END lines."""
+    """Flatten column-format transcription output into ``NAME | DATE | START | END`` lines.
+
+    Args:
+        column_text: Raw output from ``_transcribe``, containing ``DATE:``
+            section headers followed by pipe-delimited shift rows.
+
+    Returns:
+        List of strings in the form ``"Name | YYYY-MM-DD | HH:MM | HH:MM"``,
+        one entry per shift.
+    """
     result = []
     current_date = ""
     for raw in column_text.splitlines():
@@ -74,7 +107,19 @@ def _to_pipe_lines(column_text: str) -> list[str]:
 
 
 def _filter_lines(lines: list[str], person_name: str) -> list[str]:
-    """Keep only lines whose NAME field contains any word from person_name."""
+    """Keep only shift lines whose name field contains a word from ``person_name``.
+
+    Matching is case-insensitive and word-based so that "Kent" matches
+    "Clark Kent" and "kent" matches "KENT".
+
+    Args:
+        lines: Flat pipe-delimited shift lines from ``_to_pipe_lines``.
+        person_name: Space-separated name to filter by (e.g. ``"Clark Kent"``).
+
+    Returns:
+        Subset of ``lines`` where the leading name field contains at least one
+        word from ``person_name``.
+    """
     name_parts = [p.lower() for p in person_name.split() if p]
     kept = []
     for line in lines:
@@ -84,7 +129,6 @@ def _filter_lines(lines: list[str], person_name: str) -> list[str]:
     return kept
 
 
-
 def parse_events(
     image_bytes: bytes,
     media_type: str,
@@ -92,6 +136,26 @@ def parse_events(
     today: str,
     person_name: str | None = None,
 ) -> tuple[list[ScheduleEvent], str]:
+    """Extract calendar events from a schedule image using a two-pass Claude pipeline.
+
+    Args:
+        image_bytes: Raw bytes of the uploaded image file.
+        media_type: MIME type of the image (e.g. ``"image/jpeg"``).
+        api_key: Anthropic API key used to authenticate both Claude calls.
+        today: ISO date string (``YYYY-MM-DD``) used to resolve relative or
+            year-less dates in the schedule.
+        person_name: If provided, only shifts whose name field matches this
+            value are returned.  Pass ``None`` to return all shifts.
+
+    Returns:
+        A tuple of ``(events, raw_transcription)`` where ``events`` is a list
+        of validated ``ScheduleEvent`` objects and ``raw_transcription`` is the
+        intermediate text produced by the first Claude pass.
+
+    Raises:
+        ValueError: If the second Claude pass returns a response that does not
+            contain a valid JSON array.
+    """
     client = Anthropic(api_key=api_key)
     year = today[:4]
     image_source = {

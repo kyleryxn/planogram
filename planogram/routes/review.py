@@ -1,3 +1,14 @@
+"""Review and confirm routes — event editing and Google Calendar push.
+
+Exposes two endpoints:
+
+- ``GET /review`` loads a previously parsed ``ParsedSchedule`` from the
+  temporary session file and renders an editable event table.
+- ``POST /confirm`` reconstructs the edited event list from form data, expands
+  any recurring-week selections, and pushes the events to Google Calendar.
+  If no valid OAuth token exists the user is redirected to the auth flow first.
+"""
+
 import json
 from datetime import timedelta
 from pathlib import Path
@@ -18,6 +29,23 @@ TMP_DIR = Path("tmp")
 
 @router.get("/review")
 async def review(request: Request, id: str):
+    """Render the event review and editing page.
+
+    Loads the ``ParsedSchedule`` stored under the given session ID and passes
+    it to the review template where the user can edit, delete, or recolor
+    individual events before confirming.
+
+    Args:
+        request: The incoming FastAPI request object.
+        id: UUID of the session file created by ``POST /upload``.
+
+    Returns:
+        An HTML response rendering ``review.html`` populated with the parsed
+        schedule and per-event form fields.
+
+    Raises:
+        HTTPException: 404 if no session file exists for the given ID.
+    """
     tmp_path = TMP_DIR / f"{id}.json"
     if not tmp_path.exists():
         raise HTTPException(status_code=404, detail="Session not found or expired.")
@@ -36,6 +64,26 @@ async def review(request: Request, id: str):
 
 @router.post("/confirm")
 async def confirm(request: Request):
+    """Push confirmed events to Google Calendar.
+
+    Reconstructs the edited event list from indexed form fields, optionally
+    duplicates all events across additional weeks for recurring schedules, then
+    inserts them into Google Calendar.  If no valid OAuth token is available the
+    user is first redirected through the OAuth consent flow; pending events are
+    serialized to disk so they can be pushed after authorization completes.
+
+    Args:
+        request: The incoming FastAPI request object, whose form data contains
+            indexed fields (``title_0``, ``date_0``, …) for each event row plus
+            global options (``notification_minutes``, ``repeat_weeks``,
+            ``session_id``).
+
+    Returns:
+        An HTML response rendering ``success.html`` with links to the created
+        calendar events on success, a redirect to ``/auth/start`` if
+        authorization is needed, or a re-rendered review page on Google Calendar
+        API error.
+    """
     settings = get_settings()
     form = await request.form()
     session_id = str(form.get("session_id", ""))

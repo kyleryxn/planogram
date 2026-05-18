@@ -1,3 +1,14 @@
+"""Planogram FastAPI application entry point.
+
+Mounts the static file directory and registers the upload, review, and auth
+routers.  The OAUTHLIB_INSECURE_TRANSPORT environment variable is set to allow
+the Google OAuth redirect over plain HTTP during local development — remove or
+guard this for any internet-facing deployment.
+
+Run with:
+    uvicorn main:app --reload --port 8080
+"""
+
 import os
 
 from fastapi import FastAPI
