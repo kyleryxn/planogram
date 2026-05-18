@@ -273,9 +273,9 @@ html[data-theme=dark] .alert-error {
   border-color: #7f1d1d;
 }
 html[data-theme=dark] .alert-warn {
-  background: #422006;
-  color: #fde68a;
-  border-color: #78350f;
+  background: #fef3b0;
+  color: #705200;
+  border-color: #e8cc6a;
 }
 html[data-theme=dark] .ocr-details pre {
   background: #161513;
@@ -365,9 +365,9 @@ html[data-theme=dark] footer {
     border-color: #7f1d1d;
   }
   html:not([data-theme=light]) .alert-warn {
-    background: #422006;
-    color: #fde68a;
-    border-color: #78350f;
+    background: #fef3b0;
+    color: #705200;
+    border-color: #e8cc6a;
   }
   html:not([data-theme=light]) .ocr-details pre {
     background: #161513;
@@ -606,6 +606,13 @@ table td.num {
   text-align: center;
   color: #9B9490;
   width: 2.5rem;
+}
+table td.duration {
+  text-align: center;
+  color: #9B9490;
+  white-space: nowrap;
+  width: 5rem;
+  font-size: 0.85rem;
 }
 table tr:nth-child(even) td {
   background: #f0efed;

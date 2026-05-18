@@ -30,6 +30,14 @@ table {
             color: $color-num;
             width: 2.5rem;
         }
+
+        &.duration {
+            text-align: center;
+            color: $color-muted;
+            white-space: nowrap;
+            width: 5rem;
+            font-size: 0.85rem;
+        }
     }
 
     tr:nth-child(even) td {

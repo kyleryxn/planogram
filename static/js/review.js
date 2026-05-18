@@ -1,5 +1,23 @@
 /* global google */
 
+function calcDuration(startVal, endVal) {
+    if (!startVal || !endVal) return '—';
+    const [sh, sm] = startVal.split(':').map(Number);
+    const [eh, em] = endVal.split(':').map(Number);
+    const mins = (eh * 60 + em) - (sh * 60 + sm);
+    if (mins <= 0) return '—';
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return h && m ? `${h}h ${m}m` : h ? `${h}h` : `${m}m`;
+}
+
+function updateRowDuration(row) {
+    const start = row.querySelector('input[name^="start_time_"]');
+    const end = row.querySelector('input[name^="end_time_"]');
+    const cell = row.querySelector('td.duration');
+    if (start && end && cell) cell.textContent = calcDuration(start.value, end.value);
+}
+
 function deleteRow(btn) {
     btn.closest('tr').remove();
     const tbody = document.getElementById('event-rows');
@@ -16,6 +34,13 @@ function applyBulkName(value) {
         input.value = value;
     });
 }
+
+document.querySelectorAll('#event-rows tr').forEach(row => {
+    updateRowDuration(row);
+    row.querySelectorAll('input[name^="start_time_"], input[name^="end_time_"]').forEach(input => {
+        input.addEventListener('change', () => updateRowDuration(row));
+    });
+});
 
 document.querySelectorAll('.color-picker').forEach(picker => {
     picker.querySelectorAll('.swatch').forEach(swatch => {

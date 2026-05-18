@@ -55,6 +55,7 @@
                     <th>Date <span class="req">*</span></th>
                     <th>Start <span class="req">*</span></th>
                     <th>End</th>
+                    <th>Duration</th>
                     <th>Description</th>
                     <th>Location</th>
                     <th>Color</th>
@@ -69,6 +70,7 @@
                 <td><input type="date" name="date_{{ loop.index0 }}" value="{{ event.date }}" required></td>
                 <td><input type="time" name="start_time_{{ loop.index0 }}" value="{{ event.start_time.strftime('%H:%M') }}" required></td>
                 <td><input type="time" name="end_time_{{ loop.index0 }}" value="{{ event.end_time.strftime('%H:%M') if event.end_time else '' }}"></td>
+                <td class="duration">—</td>
                 <td><input type="text" name="description_{{ loop.index0 }}" value="{{ event.description or '' }}"></td>
                 <td><input type="text" name="location_{{ loop.index0 }}" value="{{ event.location or '' }}"></td>
                 <td class="color-cell">
