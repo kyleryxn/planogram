@@ -10,6 +10,7 @@ Exposes two endpoints:
 """
 
 import json
+import logging
 from datetime import timedelta
 from pathlib import Path
 
@@ -21,6 +22,8 @@ from googleapiclient.errors import HttpError
 from planogram.config import get_settings
 from planogram.models import ParsedSchedule, ScheduleEvent
 from planogram.services import calendar as cal_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 templates = Jinja2Templates(directory="planogram/templates")
@@ -48,9 +51,11 @@ async def review(request: Request, id: str):
     """
     tmp_path = TMP_DIR / f"{id}.json"
     if not tmp_path.exists():
+        logger.warning("Session not found: %s", id)
         raise HTTPException(status_code=404, detail="Session not found or expired.")
 
     schedule = ParsedSchedule.model_validate_json(tmp_path.read_text())
+    logger.info("Loaded session %s (%d event(s))", id, len(schedule.events))
     settings = get_settings()
     return templates.TemplateResponse(
         request, "review.html",
@@ -117,6 +122,7 @@ async def confirm(request: Request):
         for week in range(1, repeat_weeks + 1):
             for event in base_events:
                 events.append(event.model_copy(update={"date": event.date + timedelta(weeks=week)}))
+    logger.info("Confirming %d event(s) for session %s (repeat_weeks=%d)", len(events), session_id, repeat_weeks)
 
     try:
         creds = cal_service.get_credentials(
@@ -124,6 +130,7 @@ async def confirm(request: Request):
             settings.google_token_path,
         )
     except cal_service.NeedsAuthError:
+        logger.info("No credentials — redirecting session %s to OAuth", session_id)
         pending_path = TMP_DIR / f"{session_id}_pending.json"
         pending_path.write_text(json.dumps([ev.model_dump_json() for ev in events]))
         return RedirectResponse(url=f"/auth/start?session_id={session_id}", status_code=303)
@@ -131,6 +138,7 @@ async def confirm(request: Request):
     try:
         links = cal_service.push_events(events, creds, settings.google_calendar_id, settings.timezone, notification_minutes)
     except HttpError as exc:
+        logger.error("Google Calendar error for session %s: %s", session_id, exc)
         return templates.TemplateResponse(
             request, "review.html",
             context={
@@ -147,6 +155,7 @@ async def confirm(request: Request):
         if path.exists():
             path.unlink()
 
+    logger.info("Session %s complete — %d event(s) pushed", session_id, len(links))
     return templates.TemplateResponse(
         request, "success.html",
         context={"links": links, "count": len(events)},

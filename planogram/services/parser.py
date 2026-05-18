@@ -13,10 +13,14 @@ a calendar schema.
 
 import base64
 import json
+import logging
+import time
 
 from anthropic import Anthropic
 
 from planogram.models import ScheduleEvent
+
+logger = logging.getLogger(__name__)
 
 TRANSCRIBE_PROMPT = """\
 Look at this work schedule grid. Read it one date column at a time, left to right.
@@ -62,6 +66,8 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
         Raw transcription text with ``DATE:`` headers and pipe-delimited shift
         rows as described by ``TRANSCRIBE_PROMPT``.
     """
+    logger.info("Pass 1 – sending image to claude-opus-4-7 for transcription")
+    t0 = time.perf_counter()
     msg = client.messages.create(
         model="claude-opus-4-7",
         max_tokens=4096,
@@ -75,6 +81,7 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
             }
         ],
     )
+    logger.info("Pass 1 – complete in %.1fs", time.perf_counter() - t0)
     return msg.content[0].text.strip()
 
 
@@ -156,6 +163,7 @@ def parse_events(
         ValueError: If the second Claude pass returns a response that does not
             contain a valid JSON array.
     """
+    logger.info("Parsing %s image (%d bytes), person_name=%r", media_type, len(image_bytes), person_name)
     client = Anthropic(api_key=api_key)
     year = today[:4]
     image_source = {
@@ -166,16 +174,20 @@ def parse_events(
 
     # Pass 1 — column-by-column visual transcription
     raw_transcription = _transcribe(client, image_source)
+    pipe_lines = to_pipe_lines(raw_transcription)
+    logger.info("Pass 1 – %d shift lines found", len(pipe_lines))
 
     # Convert to flat NAME | DATE | START | END lines, then optionally filter
-    pipe_lines = to_pipe_lines(raw_transcription)
     if person_name:
         filtered = filter_lines(pipe_lines, person_name)
+        logger.info("Filtered to %d line(s) for %r", len(filtered) if filtered else len(pipe_lines), person_name)
         transcription = "\n".join(filtered) if filtered else "\n".join(pipe_lines)
     else:
         transcription = "\n".join(pipe_lines)
 
     # Pass 2 — convert to structured JSON
+    logger.info("Pass 2 – extracting events from %d lines with claude-sonnet-4-6", len(pipe_lines))
+    t0 = time.perf_counter()
     extract_msg = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=4096,
@@ -191,14 +203,17 @@ def parse_events(
     start = raw.find("[")
     end = raw.rfind("]")
     if start == -1 or end == -1:
+        logger.error("Pass 2 – no JSON array in response: %.200s", raw)
         raise ValueError(f"No JSON array found in response:\n{raw}")
 
     try:
         event_dicts = json.loads(raw[start : end + 1])
     except json.JSONDecodeError as exc:
+        logger.error("Pass 2 – invalid JSON: %s", exc)
         raise ValueError(
             f"Claude returned invalid JSON: {exc}\n\nRaw response:\n{raw}"
         ) from exc
 
     events = [ScheduleEvent.model_validate(ev) for ev in event_dicts]
+    logger.info("Pass 2 – complete in %.1fs: %d event(s) extracted", time.perf_counter() - t0, len(events))
     return events, raw_transcription

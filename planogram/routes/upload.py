@@ -9,6 +9,7 @@ Exposes two endpoints:
 """
 
 import io
+import logging
 import uuid
 from datetime import date
 from pathlib import Path
@@ -21,6 +22,8 @@ from PIL import Image
 from planogram.config import get_settings
 from planogram.models import ParsedSchedule
 from planogram.services import parser
+
+logger = logging.getLogger(__name__)
 
 MAX_IMAGE_PX = 1568
 
@@ -98,7 +101,10 @@ async def upload(
     settings = get_settings()
 
     image_bytes = await file.read()
+    logger.info("Upload received: %r (%d bytes)", file.filename, len(image_bytes))
+
     if not image_bytes:
+        logger.warning("Upload rejected: empty file")
         return templates.TemplateResponse(
             request, "index.html",
             context={"error": "Uploaded file is empty."},
@@ -108,6 +114,7 @@ async def upload(
     try:
         image_bytes, media_type = resize(image_bytes)
     except Exception as exc:
+        logger.warning("Image processing failed: %s", exc)
         return templates.TemplateResponse(
             request, "index.html",
             context={"error": f"Could not process image: {exc}"},
@@ -123,6 +130,7 @@ async def upload(
             person_name=person_name.strip() or None,
         )
     except ValueError as exc:
+        logger.warning("Parsing failed: %s", exc)
         return templates.TemplateResponse(
             request, "index.html",
             context={"error": f"Event parsing failed: {exc}"},
@@ -138,5 +146,6 @@ async def upload(
     TMP_DIR.mkdir(exist_ok=True)
     session_id = str(uuid.uuid4())
     (TMP_DIR / f"{session_id}.json").write_text(schedule.model_dump_json())
+    logger.info("Session %s created with %d event(s)", session_id, len(events))
 
     return RedirectResponse(url=f"/review?id={session_id}", status_code=303)

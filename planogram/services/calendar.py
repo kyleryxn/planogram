@@ -8,6 +8,8 @@ long-lived offline access.
 
 from __future__ import annotations
 
+import logging
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -18,6 +20,8 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 
 from planogram.models import ScheduleEvent
+
+logger = logging.getLogger(__name__)
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
@@ -49,13 +53,16 @@ def get_credentials(oauth_credentials_path: Path, token_path: Path) -> Credentia
         creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
 
     if creds and creds.valid:
+        logger.info("Credentials loaded from %s", token_path)
         return creds
 
     if creds and creds.expired and creds.refresh_token:
+        logger.info("Refreshing expired credentials")
         creds.refresh(Request())
         _save_token(creds, token_path)
         return creds
 
+    logger.warning("No valid credentials found — authorization required")
     raise NeedsAuthError("Google Calendar authorization required.")
 
 
@@ -147,12 +154,17 @@ def push_events(
         List of ``htmlLink`` URLs for the created events, in the same order as
         the input list.
     """
+    logger.info("Pushing %d event(s) to calendar %r", len(events), calendar_id)
+    t0 = time.perf_counter()
     service = build("calendar", "v3", credentials=credentials)
     links = []
     for event in events:
         body = build_event_body(event, timezone, notification_minutes)
         result = service.events().insert(calendarId=calendar_id, body=body).execute()
-        links.append(result.get("htmlLink", ""))
+        link = result.get("htmlLink", "")
+        logger.info("Created event %r on %s", event.title, event.date)
+        links.append(link)
+    logger.info("Pushed %d event(s) in %.1fs", len(links), time.perf_counter() - t0)
     return links
 
 

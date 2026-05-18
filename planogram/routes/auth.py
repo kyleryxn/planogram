@@ -15,6 +15,7 @@ Redis) for multi-process or multi-user deployments.
 """
 
 import json
+import logging
 from pathlib import Path
 
 from fastapi import APIRouter, Request
@@ -26,6 +27,8 @@ from googleapiclient.errors import HttpError
 from planogram.config import get_settings
 from planogram.models import ParsedSchedule, ScheduleEvent
 from planogram.services import calendar as cal_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 templates = Jinja2Templates(directory="planogram/templates")
@@ -58,6 +61,7 @@ async def auth_start(request: Request, session_id: str):
         settings.google_oauth_redirect_uri,
     )
     _pending_flows[session_id] = flow
+    logger.info("OAuth flow started for session %s", session_id)
     return RedirectResponse(url=auth_url)
 
 
@@ -85,26 +89,31 @@ async def auth_callback(request: Request):
 
     session_id = next(iter(_pending_flows), None)
     if session_id is None:
+        logger.warning("OAuth callback received with no pending flows")
         return RedirectResponse(url="/?error=auth_failed")
 
     flow = _pending_flows.pop(session_id)
+    logger.info("OAuth callback received for session %s — exchanging code", session_id)
     creds = cal_service.handle_auth_callback(
         flow,
         authorization_response=str(request.url),
         token_path=settings.google_token_path,
     )
+    logger.info("Authorization complete, credentials saved to %s", settings.google_token_path)
 
     # Push any events that were pending before the OAuth redirect
     pending_path = TMP_DIR / f"{session_id}_pending.json"
     if pending_path.exists():
         event_jsons = json.loads(pending_path.read_text())
         events = [ScheduleEvent.model_validate_json(ej) for ej in event_jsons]
+        logger.info("Pushing %d pending event(s) for session %s", len(events), session_id)
 
         try:
             links = cal_service.push_events(
                 events, creds, settings.google_calendar_id, settings.timezone
             )
         except HttpError as exc:
+            logger.error("Google Calendar error pushing pending events for session %s: %s", session_id, exc)
             schedule = ParsedSchedule(events=events, raw_ocr_text="", source_image_name="")
             return templates.TemplateResponse(
                 request, "review.html",
