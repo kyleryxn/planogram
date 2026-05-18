@@ -37,7 +37,7 @@ templates = Jinja2Templates(directory="planogram/templates")
 TMP_DIR = Path("tmp")
 
 
-def _resize(image_bytes: bytes) -> tuple[bytes, str]:
+def resize(image_bytes: bytes) -> tuple[bytes, str]:
     """Resize an image so neither dimension exceeds ``MAX_IMAGE_PX`` pixels.
 
     Uses Pillow's ``thumbnail`` method which preserves aspect ratio and only
@@ -106,7 +106,7 @@ async def upload(
         )
 
     try:
-        image_bytes, media_type = _resize(image_bytes)
+        image_bytes, media_type = resize(image_bytes)
     except Exception as exc:
         return templates.TemplateResponse(
             request, "index.html",

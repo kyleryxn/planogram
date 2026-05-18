@@ -1,7 +1,7 @@
 """Google Calendar OAuth 2.0 flow and event creation helpers.
 
-Credentials are persisted to disk after the first successful authorization so
-subsequent runs skip the consent screen entirely.  The OAuth flow uses
+Credentials are persisted to disk after the first successful authorization, so
+later runs skip the consent screen entirely. The OAuth flow uses
 ``prompt="consent"`` to always request a refresh token, which is required for
 long-lived offline access.
 """
@@ -27,10 +27,10 @@ class NeedsAuthError(Exception):
 
 
 def get_credentials(oauth_credentials_path: Path, token_path: Path) -> Credentials:
-    """Load and return valid Google OAuth credentials from disk.
+    """Load and return valid Google OAuth credentials from the disk.
 
-    Attempts to load a previously saved token, refreshing it automatically if
-    expired.  Raises ``NeedsAuthError`` if no usable token exists, signalling
+    Attempts to load a previously saved token, refreshing it automatically if it
+    expired.  Raises ``NeedsAuthError`` if no usable token exists, signaling
     the caller to redirect the user through the OAuth consent flow.
 
     Args:
@@ -69,7 +69,7 @@ def initiate_auth_flow(
 
     Args:
         oauth_credentials_path: Path to the OAuth client secrets JSON file.
-        redirect_uri: The URI Google will redirect to after user consent.  Must
+        redirect_uri: The URI Google will redirect to after the user consents.  Must
             match a URI registered in the Google Cloud Console.
 
     Returns:
@@ -150,13 +150,13 @@ def push_events(
     service = build("calendar", "v3", credentials=credentials)
     links = []
     for event in events:
-        body = _build_event_body(event, timezone, notification_minutes)
+        body = build_event_body(event, timezone, notification_minutes)
         result = service.events().insert(calendarId=calendar_id, body=body).execute()
         links.append(result.get("htmlLink", ""))
     return links
 
 
-def _build_event_body(
+def build_event_body(
     event: ScheduleEvent,
     timezone: str,
     notification_minutes: int | None = None,

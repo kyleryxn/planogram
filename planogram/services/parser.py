@@ -78,7 +78,7 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
     return msg.content[0].text.strip()
 
 
-def _to_pipe_lines(column_text: str) -> list[str]:
+def to_pipe_lines(column_text: str) -> list[str]:
     """Flatten column-format transcription output into ``NAME | DATE | START | END`` lines.
 
     Args:
@@ -106,14 +106,14 @@ def _to_pipe_lines(column_text: str) -> list[str]:
     return result
 
 
-def _filter_lines(lines: list[str], person_name: str) -> list[str]:
+def filter_lines(lines: list[str], person_name: str) -> list[str]:
     """Keep only shift lines whose name field contains a word from ``person_name``.
 
     Matching is case-insensitive and word-based so that "Kent" matches
     "Clark Kent" and "kent" matches "KENT".
 
     Args:
-        lines: Flat pipe-delimited shift lines from ``_to_pipe_lines``.
+        lines: Flat pipe-delimited shift lines from ``to_pipe_lines``.
         person_name: Space-separated name to filter by (e.g. ``"Clark Kent"``).
 
     Returns:
@@ -168,9 +168,9 @@ def parse_events(
     raw_transcription = _transcribe(client, image_source)
 
     # Convert to flat NAME | DATE | START | END lines, then optionally filter
-    pipe_lines = _to_pipe_lines(raw_transcription)
+    pipe_lines = to_pipe_lines(raw_transcription)
     if person_name:
-        filtered = _filter_lines(pipe_lines, person_name)
+        filtered = filter_lines(pipe_lines, person_name)
         transcription = "\n".join(filtered) if filtered else "\n".join(pipe_lines)
     else:
         transcription = "\n".join(pipe_lines)
