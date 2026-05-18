@@ -38,10 +38,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Ensure requires-review label exists
-        if: |
-          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-major' ||
-          (steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' &&
-           steps.dependabot-metadata.outputs.dependency-type == 'direct:production')
         run: gh label create "requires-review" --color "e11d48" --description "Requires manual review before merging" --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
