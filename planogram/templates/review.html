@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Review Events — Planogram{% endblock %}
+
+{% block content %}
+<h2>Review Parsed Events</h2>
+<p class="meta">
+    Source: <strong>{{ schedule.source_image_name }}</strong>
+    &mdash; <strong>{{ schedule.events | length }}</strong> event(s) found
+</p>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+{% if schedule.events %}
+<form action="/confirm" method="post">
+    <input type="hidden" name="session_id" value="{{ session_id }}">
+
+    <div class="bulk-name">
+        <label for="bulk-event-name">Event name for all shifts:</label>
+        <input type="text" id="bulk-event-name" placeholder="e.g. Work" oninput="applyBulkName(this.value)">
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title <span class="req">*</span></th>
+                    <th>Date <span class="req">*</span></th>
+                    <th>Start <span class="req">*</span></th>
+                    <th>End</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="event-rows">
+            {% for event in schedule.events %}
+            <tr>
+                <td class="num">{{ loop.index }}</td>
+                <td><input type="text" name="title_{{ loop.index0 }}" value="{{ event.title }}" required></td>
+                <td><input type="date" name="date_{{ loop.index0 }}" value="{{ event.date }}" required></td>
+                <td><input type="time" name="start_time_{{ loop.index0 }}" value="{{ event.start_time.strftime('%H:%M') }}" required></td>
+                <td><input type="time" name="end_time_{{ loop.index0 }}" value="{{ event.end_time.strftime('%H:%M') if event.end_time else '' }}"></td>
+                <td><input type="text" name="description_{{ loop.index0 }}" value="{{ event.description or '' }}"></td>
+                <td><input type="text" name="location_{{ loop.index0 }}" value="{{ event.location or '' }}"></td>
+                <td class="del-cell">
+                    <button type="button" class="btn-delete" aria-label="Delete shift" onclick="deleteRow(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19h6"/><path d="M16 2v4"/><path d="M19 16v6"/><path d="M21 12.598V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.5"/><path d="M3 10h18"/><path d="M8 2v4"/></svg>
+            Push to Google Calendar
+        </button>
+        <a href="/" class="btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Start over
+        </a>
+    </div>
+</form>
+{% else %}
+<div class="alert alert-warn">No events could be extracted from this image.</div>
+<a href="/" class="btn-secondary">Try another image</a>
+{% endif %}
+
+<details class="ocr-details">
+    <summary>Claude's raw response</summary>
+    <pre>{{ schedule.raw_ocr_text }}</pre>
+</details>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/review.min.js"></script>
+{% if maps_api_key %}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&loading=async&callback=initAutocomplete"
+    async defer>
+</script>
+{% endif %}
+{% endblock %}

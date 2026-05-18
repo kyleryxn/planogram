@@ -1,0 +1,14 @@
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 480px;
+
+    label {
+        font-weight: 600;
+    }
+
+    input[type='file'] {
+        font-size: 1rem;
+    }
+}

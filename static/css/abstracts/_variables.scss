@@ -1,0 +1,40 @@
+// Palette
+$ocean-blue:     #108AB5;
+$steel-blue:     #60A4C2;
+$dust-grey:      #DAD7D5;
+$charcoal-brown: #3E3B37;
+$rosy-granite:   #9B9490;
+
+// Colors — brand
+$color-primary:             $ocean-blue;
+$color-primary-hover:       #0d6b8c;    // ocean-blue darkened ~10%
+
+// Colors — surface
+$color-bg:                  #f5f4f3;    // softer than dust-grey
+$color-surface:             #fff;
+$color-border:              $dust-grey;
+
+// Colors — text
+$color-text:                $charcoal-brown;
+$color-muted:               $rosy-granite;
+$color-num:                 $rosy-granite;
+
+// Colors — table header
+$color-header-bg:           $charcoal-brown;
+$color-header-text:         $dust-grey;
+
+// Colors — alerts
+$color-error-bg:            #fee2e2;
+$color-error-text:          #991b1b;
+$color-error-border:        #fca5a5;
+$color-warn-bg:             #fef9c3;
+$color-warn-text:           #854d0e;
+$color-warn-border:         #fde047;
+
+// Colors — secondary button
+$color-btn-secondary:       $dust-grey;
+$color-btn-secondary-hover: #c8c5c2;    // dust-grey darkened
+
+// Layout
+$radius:                    4px;
+$max-width:                 1100px;

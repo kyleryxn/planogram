@@ -1,0 +1,24 @@
+@use '../abstracts/variables' as *;
+
+input[type='text'],
+input[type='date'],
+input[type='time'] {
+    width: 100%;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid #d1d5db;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-family: inherit;
+
+    &:focus {
+        outline: 2px solid $color-primary;
+        outline-offset: 1px;
+        border-color: transparent;
+    }
+}
+
+.hint {
+    color: $color-muted;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}

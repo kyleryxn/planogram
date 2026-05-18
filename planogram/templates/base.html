@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Planogram{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.min.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">Planogram</a></h1>
+        <p class="tagline">Scan a schedule image &rarr; push to Google Calendar</p>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

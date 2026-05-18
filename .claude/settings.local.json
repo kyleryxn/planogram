@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Kyle\\\\Documents\\\\Repositories\\\\Python\\\\planogram\" -Recurse)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(poetry add *)",
+      "Bash(poetry run python -c ' *)",
+      "Bash(poetry run *)",
+      "Bash(poetry remove *)",
+      "WebFetch(domain:lucide.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}

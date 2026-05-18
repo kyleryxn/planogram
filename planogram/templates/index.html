@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Upload Schedule — Planogram{% endblock %}
+
+{% block content %}
+<h2>Upload a Schedule Image</h2>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+    <label for="person_name">Your name (as it appears on the schedule):</label>
+    <input type="text" id="person_name" name="person_name" placeholder="e.g. Clark Kent" required>
+
+    <label for="file">Schedule image (JPG, PNG, WEBP, PDF):</label>
+    <input type="file" id="file" name="file" accept="image/*,.pdf" required>
+
+    <button type="submit" class="btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+        Upload &amp; Parse
+    </button>
+</form>
+
+<p class="hint">Works with printed schedules, handwritten notes, and scanned documents.</p>
+
+<div class="alert alert-warn">
+    Always review parsed events before adding them to your calendar &mdash;
+    AI reading isn't perfect, especially on dense or multi-person schedules.
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+@use '../abstracts/variables' as *;
+
+.success-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+        width: 1.4rem;
+        height: 1.4rem;
+        flex-shrink: 0;
+        color: $color-primary;
+    }
+}
+
+.event-links {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+
+    li {
+        margin: 0.4rem 0;
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: $color-primary;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        svg {
+            width: 0.9rem;
+            height: 0.9rem;
+            flex-shrink: 0;
+        }
+    }
+}
