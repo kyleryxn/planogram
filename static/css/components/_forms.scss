@@ -1,5 +1,21 @@
 @use '../abstracts/variables' as *;
 
+select {
+    padding: 0.3rem 0.4rem;
+    border: 1px solid #d1d5db;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: #fff;
+    cursor: pointer;
+
+    &:focus {
+        outline: 2px solid $color-primary;
+        outline-offset: 1px;
+        border-color: transparent;
+    }
+}
+
 input[type='text'],
 input[type='date'],
 input[type='time'] {
@@ -20,5 +36,12 @@ input[type='time'] {
 .hint {
     color: $color-muted;
     font-size: 0.875rem;
+    text-align: center;
     margin-top: 0.5rem;
+}
+
+.label-optional {
+    font-weight: 400;
+    color: $color-muted;
+    font-size: 0.85em;
 }

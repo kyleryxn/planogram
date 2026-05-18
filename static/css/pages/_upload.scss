@@ -1,14 +1,53 @@
+@use '../abstracts/variables' as *;
+
+.upload-wrap {
+    width: 100%;
+
+    h2 {
+        text-align: center;
+    }
+}
+
 .upload-form {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    max-width: 480px;
 
     label {
         font-weight: 600;
+        white-space: nowrap;
     }
 
-    input[type='file'] {
-        font-size: 1rem;
+    .form-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        align-self: center;
+
+        input[type='text'] {
+            width: 30rem;
+            max-width: 100%;
+        }
+    }
+
+    .file-input-hidden {
+        display: none;
+    }
+
+    .btn-choose-file {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .file-chosen {
+        text-align: center;
+        color: $color-muted;
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .btn-primary {
+        align-self: center;
     }
 }

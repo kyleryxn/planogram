@@ -66,23 +66,38 @@ def _save_token(creds: Credentials, token_path: Path) -> None:
 
 
 def push_events(
-    events: list[ScheduleEvent], credentials: Credentials, calendar_id: str, timezone: str
+    events: list[ScheduleEvent],
+    credentials: Credentials,
+    calendar_id: str,
+    timezone: str,
+    notification_minutes: int | None = None,
 ) -> list[str]:
     service = build("calendar", "v3", credentials=credentials)
     links = []
     for event in events:
-        body = _build_event_body(event, timezone)
+        body = _build_event_body(event, timezone, notification_minutes)
         result = service.events().insert(calendarId=calendar_id, body=body).execute()
         links.append(result.get("htmlLink", ""))
     return links
 
 
-def _build_event_body(event: ScheduleEvent, timezone: str) -> dict:
+def _build_event_body(event: ScheduleEvent, timezone: str, notification_minutes: int | None = None) -> dict:
     base = {
         "summary": event.title,
         "description": event.description or "",
         "location": event.location or "",
     }
+    if event.color_id:
+        base["colorId"] = event.color_id
+    if notification_minutes is None:
+        base["reminders"] = {"useDefault": True}
+    elif notification_minutes == 0:
+        base["reminders"] = {"useDefault": False, "overrides": []}
+    else:
+        base["reminders"] = {
+            "useDefault": False,
+            "overrides": [{"method": "popup", "minutes": notification_minutes}],
+        }
     if event.end_time:
         base["start"] = {
             "dateTime": datetime.combine(event.date, event.start_time).isoformat(),

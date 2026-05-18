@@ -2,7 +2,7 @@
 {% block title %}Review Events — Planogram{% endblock %}
 
 {% block content %}
-<h2>Review Parsed Events</h2>
+<h2 class="review-header">Review Parsed Events</h2>
 <p class="meta">
     Source: <strong>{{ schedule.source_image_name }}</strong>
     &mdash; <strong>{{ schedule.events | length }}</strong> event(s) found
@@ -19,6 +19,16 @@
     <div class="bulk-name">
         <label for="bulk-event-name">Event name for all shifts:</label>
         <input type="text" id="bulk-event-name" placeholder="e.g. Work" oninput="applyBulkName(this.value)">
+        <label for="notification-minutes">Notify before:</label>
+        <select id="notification-minutes" name="notification_minutes">
+            <option value="">Calendar default</option>
+            <option value="0">None</option>
+            <option value="10">10 minutes</option>
+            <option value="30" selected>30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="120">2 hours</option>
+            <option value="1440">1 day</option>
+        </select>
     </div>
 
     <div class="table-wrap">
@@ -32,6 +42,7 @@
                     <th>End</th>
                     <th>Description</th>
                     <th>Location</th>
+                    <th>Color</th>
                     <th></th>
                 </tr>
             </thead>
@@ -45,6 +56,23 @@
                 <td><input type="time" name="end_time_{{ loop.index0 }}" value="{{ event.end_time.strftime('%H:%M') if event.end_time else '' }}"></td>
                 <td><input type="text" name="description_{{ loop.index0 }}" value="{{ event.description or '' }}"></td>
                 <td><input type="text" name="location_{{ loop.index0 }}" value="{{ event.location or '' }}"></td>
+                <td class="color-cell">
+                    <div class="color-picker">
+                        <span class="swatch active" data-color="" style="background:#e0e0e0" title="Default"></span>
+                        <span class="swatch" data-color="1"  style="background:#7986CB" title="Lavender"></span>
+                        <span class="swatch" data-color="2"  style="background:#33B679" title="Sage"></span>
+                        <span class="swatch" data-color="3"  style="background:#8E24AA" title="Grape"></span>
+                        <span class="swatch" data-color="4"  style="background:#E67C73" title="Flamingo"></span>
+                        <span class="swatch" data-color="5"  style="background:#F6BF26" title="Banana"></span>
+                        <span class="swatch" data-color="6"  style="background:#F4511E" title="Tangerine"></span>
+                        <span class="swatch" data-color="7"  style="background:#039BE5" title="Peacock"></span>
+                        <span class="swatch" data-color="8"  style="background:#616161" title="Graphite"></span>
+                        <span class="swatch" data-color="9"  style="background:#3F51B5" title="Blueberry"></span>
+                        <span class="swatch" data-color="10" style="background:#0B8043" title="Basil"></span>
+                        <span class="swatch" data-color="11" style="background:#D50000" title="Tomato"></span>
+                    </div>
+                    <input type="hidden" name="color_id_{{ loop.index0 }}" value="">
+                </td>
                 <td class="del-cell">
                     <button type="button" class="btn-delete" aria-label="Delete shift" onclick="deleteRow(this)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

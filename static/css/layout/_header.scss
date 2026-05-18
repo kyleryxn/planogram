@@ -2,9 +2,8 @@
 
 header {
     display: flex;
-    align-items: baseline;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     border-bottom: 2px solid $ocean-blue;
     padding-bottom: 0.75rem;
     margin-bottom: 1.75rem;
@@ -13,6 +12,7 @@ header {
         margin: 0;
         font-size: 1.8rem;
         flex-shrink: 0;
+        font-family: 'Roboto', system-ui, sans-serif;
 
         a {
             text-decoration: none;
@@ -21,7 +21,7 @@ header {
     }
 
     .tagline {
-        margin: 0;
+        margin: 0.2rem 0 0;
         color: $color-muted;
         font-size: 0.9rem;
     }

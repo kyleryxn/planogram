@@ -17,15 +17,43 @@ function applyBulkName(value) {
     });
 }
 
+document.querySelectorAll('.color-picker').forEach(picker => {
+    picker.querySelectorAll('.swatch').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            picker.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+            const input = picker.parentNode.querySelector('input[type="hidden"]');
+            if (input) input.value = swatch.dataset.color;
+        });
+    });
+});
+
 async function initAutocomplete() {
-    const { PlaceAutocompleteElement } = await google.maps.importLibrary('places');
+    const { AutocompleteSuggestion } = await google.maps.importLibrary('places');
+
     document.querySelectorAll('input[name^="location_"]').forEach(input => {
-        const pac = new PlaceAutocompleteElement();
-        pac.id = `pac-${input.name}`;
-        input.parentNode.insertBefore(pac, input);
-        input.style.display = 'none';
-        pac.addEventListener('gmp-placeselect', ({ place }) => {
-            input.value = place.displayName || place.formattedAddress || '';
+        const datalist = document.createElement('datalist');
+        datalist.id = `dl-${input.name}`;
+        input.setAttribute('list', datalist.id);
+        input.parentNode.appendChild(datalist);
+
+        let debounce;
+        input.addEventListener('input', function () {
+            clearTimeout(debounce);
+            datalist.innerHTML = '';
+            if (input.value.length < 2) return;
+            debounce = setTimeout(async () => {
+                try {
+                    const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+                        input: input.value,
+                    });
+                    datalist.innerHTML = suggestions.slice(0, 5).map(s =>
+                        `<option value="${s.placePrediction.text.text}"></option>`
+                    ).join('');
+                } catch (e) {
+                    console.error('autocomplete error:', e);
+                }
+            }, 300);
         });
     });
 }

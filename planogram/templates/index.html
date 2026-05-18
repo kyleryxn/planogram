@@ -2,29 +2,42 @@
 {% block title %}Upload Schedule — Planogram{% endblock %}
 
 {% block content %}
-<h2>Upload a Schedule Image</h2>
+<div class="upload-wrap">
+    <h2>Upload a Schedule</h2>
 
-{% if error %}
-<div class="alert alert-error">{{ error }}</div>
-{% endif %}
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
 
-<form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
-    <label for="person_name">Your name (as it appears on the schedule):</label>
-    <input type="text" id="person_name" name="person_name" placeholder="e.g. Clark Kent" required>
+    <form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+        <div class="form-row">
+            <label for="person_name">Your name: <span class="label-optional">(optional)</span></label>
+            <input type="text" id="person_name" name="person_name" placeholder="e.g. Clark Kent">
+        </div>
+        <p class="hint">Enter your name to filter a multi-person schedule to just your shifts. Leave blank for single-person schedules or to see all shifts.</p>
 
-    <label for="file">Schedule image (JPG, PNG, WEBP, PDF):</label>
-    <input type="file" id="file" name="file" accept="image/*,.pdf" required>
+        <div class="form-row">
+            <label for="file">Schedule (JPG, PNG, WEBP, PDF):</label>
+            <button type="button" class="btn-secondary btn-choose-file" onclick="document.getElementById('file').click()">Choose File</button>
+            <input type="file" id="file" name="file" accept="image/*,.pdf" required class="file-input-hidden">
+        </div>
+        <p class="file-chosen">No file chosen</p>
 
-    <button type="submit" class="btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
-        Upload &amp; Parse
-    </button>
-</form>
+        <button type="submit" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+            Upload &amp; Parse
+        </button>
+    </form>
 
-<p class="hint">Works with printed schedules, handwritten notes, and scanned documents.</p>
+    <p class="hint">Works with printed schedules, handwritten notes, and scanned documents.</p>
 
-<div class="alert alert-warn">
-    Always review parsed events before adding them to your calendar &mdash;
-    AI reading isn't perfect, especially on dense or multi-person schedules.
+    <div class="alert alert-warn">
+        Always review parsed events before adding them to your calendar &mdash;
+        AI reading isn't perfect, especially on dense or multi-person schedules.
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/upload.min.js"></script>
 {% endblock %}

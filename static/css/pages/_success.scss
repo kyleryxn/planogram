@@ -1,8 +1,16 @@
 @use '../abstracts/variables' as *;
 
+.success-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .success-heading {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
 
     svg {
@@ -17,6 +25,7 @@
     list-style: none;
     padding: 0;
     margin: 1rem 0;
+    text-align: center;
 
     li {
         margin: 0.4rem 0;

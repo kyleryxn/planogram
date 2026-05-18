@@ -11,6 +11,7 @@ class ScheduleEvent(BaseModel):
     end_time: Optional[time] = None
     description: Optional[str] = None
     location: Optional[str] = None
+    color_id: Optional[str] = None
 
 
 class ParsedSchedule(BaseModel):

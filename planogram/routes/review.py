@@ -39,18 +39,25 @@ async def confirm(request: Request):
     form = await request.form()
     session_id = str(form.get("session_id", ""))
 
+    notif_raw = str(form.get("notification_minutes", ""))
+    if notif_raw == "":
+        notification_minutes = None
+    else:
+        notification_minutes = int(notif_raw)
+
     events: list[ScheduleEvent] = []
     index = 0
     while f"title_{index}" in form:
-        end_time_raw = form.get(f"end_time_{index}") or None
+        location_raw = str(form.get(f"location_{index}") or "")
         events.append(
             ScheduleEvent(
                 title=str(form[f"title_{index}"]),
                 date=str(form[f"date_{index}"]),
                 start_time=str(form[f"start_time_{index}"]),
-                end_time=end_time_raw,
+                end_time=form.get(f"end_time_{index}") or None,
                 description=str(form.get(f"description_{index}") or "") or None,
-                location=str(form.get(f"location_{index}") or "") or None,
+                location=location_raw or None,
+                color_id=str(form.get(f"color_id_{index}") or "") or None,
             )
         )
         index += 1
@@ -66,7 +73,7 @@ async def confirm(request: Request):
         return RedirectResponse(url=f"/auth/start?session_id={session_id}", status_code=303)
 
     try:
-        links = cal_service.push_events(events, creds, settings.google_calendar_id, settings.timezone)
+        links = cal_service.push_events(events, creds, settings.google_calendar_id, settings.timezone, notification_minutes)
     except HttpError as exc:
         return templates.TemplateResponse(
             request, "review.html",

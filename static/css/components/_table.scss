@@ -44,6 +44,38 @@ table {
     }
 }
 
+.color-cell {
+    width: 7rem;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.color-picker {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.15s;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+
+    &.active {
+        outline: 2px solid $color-text;
+        outline-offset: 1px;
+    }
+}
+
 .btn-delete {
     display: inline-flex;
     align-items: center;
