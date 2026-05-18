@@ -67,7 +67,8 @@ poetry run uvicorn main:app --reload --port 8080
 
 Open [http://127.0.0.1:8080](http://127.0.0.1:8080).
 
-The first time you push events to Google Calendar, you'll be redirected through an OAuth consent screen. After approving, the token is saved to `credentials/token.json` and subsequent runs skip the auth step.
+The first time you push events to Google Calendar, you'll be redirected through an OAuth consent screen. 
+After approving, the token is saved to `credentials/token.json` and later runs skip the auth step.
 
 ## Project structure
 
