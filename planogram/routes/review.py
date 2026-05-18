@@ -136,7 +136,9 @@ async def confirm(request: Request):
         return RedirectResponse(url=f"/auth/start?session_id={session_id}", status_code=303)
 
     try:
-        links = cal_service.push_events(events, creds, settings.google_calendar_id, settings.timezone, notification_minutes)
+        links = cal_service.push_events(
+            events, creds, settings.google_calendar_id, settings.timezone, notification_minutes
+        )
     except HttpError as exc:
         logger.error("Google Calendar error for session %s: %s", session_id, exc)
         return templates.TemplateResponse(
