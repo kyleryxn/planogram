@@ -54,7 +54,7 @@ def resize(image_bytes: bytes) -> tuple[bytes, str]:
         MIME type string inferred from the image format.
     """
     with Image.open(io.BytesIO(image_bytes)) as img:
-        img.thumbnail((MAX_IMAGE_PX, MAX_IMAGE_PX), Image.LANCZOS)
+        img.thumbnail((MAX_IMAGE_PX, MAX_IMAGE_PX), Image.Resampling.LANCZOS)
         fmt = (img.format or "JPEG").lower()
         buf = io.BytesIO()
         img.save(buf, format=fmt.upper())
