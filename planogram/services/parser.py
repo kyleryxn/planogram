@@ -75,8 +75,8 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
         messages=[
             {
                 "role": "user",
-                "content": [  # type: ignore[list-item]
-                    {"type": "image", "source": image_source},
+                "content": [
+                    {"type": "image", "source": image_source},  # type: ignore[list-item]
                     {"type": "text", "text": TRANSCRIBE_PROMPT},
                 ],
             }
