@@ -3,9 +3,10 @@ name = "planogram"
 version = "0.1.0"
 description = "Scan schedule images and push events to Google Calendar"
 authors = [
-    {name = "Kyle Schoenhardt",email = "kschoenhardt@nuarch.com"}
+    {name = "Kyle Schoenhardt",email = "kyle.schoenhardt@yahoo.com"}
 ]
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = "^3.14"
 dependencies = [
     "fastapi (>=0.136.1,<0.137.0)",
