@@ -4,6 +4,15 @@
 
 This project follows the [Keep a Changelog](https://keepachangelog.com) format and [Semantic Versioning](https://semver.org).
 
+### Unreleased Section
+
+Keep an `Unreleased` section at the top to track upcoming changes.
+
+This serves two purposes:
+
+- People can see what changes they might expect in upcoming releases.
+- At release time, you can move the `Unreleased` section changes into a new release version section.
+
 ### Guiding Principles
 
 - Changelogs are for humans, not machines.
