@@ -17,6 +17,7 @@ import logging
 import time
 
 from anthropic import Anthropic
+from anthropic.types import TextBlock
 
 from planogram.models import ScheduleEvent
 
@@ -74,7 +75,7 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
         messages=[
             {
                 "role": "user",
-                "content": [
+                "content": [  # type: ignore[list-item]
                     {"type": "image", "source": image_source},
                     {"type": "text", "text": TRANSCRIBE_PROMPT},
                 ],
@@ -82,7 +83,10 @@ def _transcribe(client: Anthropic, image_source: dict) -> str:
         ],
     )
     logger.info("Pass 1 – complete in %.1fs", time.perf_counter() - t0)
-    return msg.content[0].text.strip()
+    block = msg.content[0]
+    if not isinstance(block, TextBlock):
+        raise RuntimeError(f"Unexpected response block type: {type(block).__name__}")
+    return block.text.strip()
 
 
 def to_pipe_lines(column_text: str) -> list[str]:
@@ -199,7 +203,10 @@ def parse_events(
         ],
     )
 
-    raw = extract_msg.content[0].text.strip()
+    extract_block = extract_msg.content[0]
+    if not isinstance(extract_block, TextBlock):
+        raise RuntimeError(f"Unexpected response block type: {type(extract_block).__name__}")
+    raw = extract_block.text.strip()
     start = raw.find("[")
     end = raw.rfind("]")
     if start == -1 or end == -1:

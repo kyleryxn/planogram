@@ -104,19 +104,19 @@ async def confirm(request: Request):
     while f"title_{index}" in form:
         location_raw = str(form.get(f"location_{index}") or "")
         events.append(
-            ScheduleEvent(
-                title=str(form[f"title_{index}"]),
-                date=str(form[f"date_{index}"]),
-                start_time=str(form[f"start_time_{index}"]),
-                end_time=form.get(f"end_time_{index}") or None,
-                description=str(form.get(f"description_{index}") or "") or None,
-                location=location_raw or None,
-                color_id=str(form.get(f"color_id_{index}") or "") or None,
-            )
+            ScheduleEvent.model_validate({
+                "title": str(form[f"title_{index}"]),
+                "date": str(form[f"date_{index}"]),
+                "start_time": str(form[f"start_time_{index}"]),
+                "end_time": str(form.get(f"end_time_{index}") or "") or None,
+                "description": str(form.get(f"description_{index}") or "") or None,
+                "location": location_raw or None,
+                "color_id": str(form.get(f"color_id_{index}") or "") or None,
+            })
         )
         index += 1
 
-    repeat_weeks = int(form.get("repeat_weeks", 0) or 0)
+    repeat_weeks = int(str(form.get("repeat_weeks") or 0))
     if repeat_weeks > 0:
         base_events = events[:]
         for week in range(1, repeat_weeks + 1):
