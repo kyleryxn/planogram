@@ -14,7 +14,7 @@ Upload a photo of a printed or handwritten schedule and push the events directly
 
 ## Requirements
 
-- Python 3.14+
+- [Python 3.14+](https://www.python.org/downloads/)
 - [Poetry](https://python-poetry.org/)
 - A Google Cloud project with the **Google Calendar API** enabled
 - An [Anthropic API key](https://console.anthropic.com)
@@ -23,9 +23,17 @@ Upload a photo of a printed or handwritten schedule and push the events directly
 
 ### 1. Install dependencies
 
+Install Python and Poetry if you haven't already.
+
+Clone the repo and install the project dependencies:
+
 ```bash
+git clone https://github.com/your-username/planogram.git
+cd planogram
 poetry install
 ```
+
+`poetry install` creates a virtual environment and installs all packages listed in `pyproject.toml` automatically.
 
 ### 2. Google Cloud setup
 
