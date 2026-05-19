@@ -22,11 +22,15 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
     body {
         background: $dk-bg;
-        color: $dk-text;
+        color: $color-bg;
     }
 
     header .tagline {
         color: $dk-muted;
+    }
+
+    p {
+        color: $color-bg;
     }
 
     .theme-toggle {
@@ -123,9 +127,12 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
     .file-chosen,
     .loading-msg,
-    .hint,
     .meta {
         color: $dk-muted;
+    }
+
+    .hint {
+        color: $color-bg;
     }
 
     .label-optional {

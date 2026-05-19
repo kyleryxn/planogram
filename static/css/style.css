@@ -211,10 +211,13 @@ html[data-theme=dark] {
 }
 html[data-theme=dark] body {
   background: #1e1c1a;
-  color: #e8e5e2;
+  color: #f5f4f3;
 }
 html[data-theme=dark] header .tagline {
   color: #9B9490;
+}
+html[data-theme=dark] p {
+  color: #f5f4f3;
 }
 html[data-theme=dark] .theme-toggle {
   color: #9B9490;
@@ -291,9 +294,11 @@ html[data-theme=dark] #bulk-color-picker .swatch::after {
 }
 html[data-theme=dark] .file-chosen,
 html[data-theme=dark] .loading-msg,
-html[data-theme=dark] .hint,
 html[data-theme=dark] .meta {
   color: #9B9490;
+}
+html[data-theme=dark] .hint {
+  color: #f5f4f3;
 }
 html[data-theme=dark] .label-optional {
   color: #9B9490;
@@ -311,10 +316,13 @@ html[data-theme=dark] footer p {
   }
   html:not([data-theme=light]) body {
     background: #1e1c1a;
-    color: #e8e5e2;
+    color: #f5f4f3;
   }
   html:not([data-theme=light]) header .tagline {
     color: #9B9490;
+  }
+  html:not([data-theme=light]) p {
+    color: #f5f4f3;
   }
   html:not([data-theme=light]) .theme-toggle {
     color: #9B9490;
@@ -391,9 +399,11 @@ html[data-theme=dark] footer p {
   }
   html:not([data-theme=light]) .file-chosen,
   html:not([data-theme=light]) .loading-msg,
-  html:not([data-theme=light]) .hint,
   html:not([data-theme=light]) .meta {
     color: #9B9490;
+  }
+  html:not([data-theme=light]) .hint {
+    color: #f5f4f3;
   }
   html:not([data-theme=light]) .label-optional {
     color: #9B9490;
