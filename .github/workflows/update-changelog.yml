@@ -1,0 +1,56 @@
+name: Update Changelog
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Determine changelog section from PR labels
+        id: label
+        env:
+          LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        run: |
+          SECTION=""
+          for label in added changed fixed removed security; do
+            if echo "$LABELS" | grep -qi "\"$label\""; then
+              # Capitalize first letter
+              SECTION="$(echo "$label" | awk '{print toupper(substr($0,1,1)) substr($0,2)}')"
+              break
+            fi
+          done
+          echo "section=$SECTION" >> "$GITHUB_OUTPUT"
+
+      - name: Insert changelog bullet
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          SECTION: ${{ steps.label.outputs.section }}
+        run: |
+          python .github/scripts/update_changelog.py \
+            --section "$SECTION" \
+            --title "$PR_TITLE"
+
+      - name: Commit changelog update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet || git commit -m "chore: update changelog for #${{ github.event.pull_request.number }}"
+          git push
