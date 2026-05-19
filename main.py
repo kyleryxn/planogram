@@ -16,6 +16,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from planogram.routes import auth, review, upload
@@ -52,6 +53,11 @@ os.environ.setdefault("OAUTHLIB_INSECURE_TRANSPORT", "1")
 app = FastAPI(title="Planogram", lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/.well-known/appspecific/com.chrome.devtools.json", include_in_schema=False)
+async def chrome_devtools() -> JSONResponse:
+    return JSONResponse({})
 
 app.include_router(upload.router)
 app.include_router(review.router)
