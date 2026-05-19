@@ -1,0 +1,19 @@
+# Subject: imperative mood, ≤72 chars, no period
+# Example: Add bulk color picker to review page
+
+
+# Body: explain the WHY, not the what. Wrap at 72 chars.
+# Leave a blank line between subject and body.
+
+
+# Type (pick one, delete this line):
+#   Added     – new feature
+#   Changed   – change to existing functionality
+#   Fixed     – bug fix
+#   Removed   – removed feature
+#   Security  – vulnerability fix
+
+# Checklist (delete this section before committing):
+#   [ ] Tests pass locally
+#   [ ] SCSS/JS compiled by file watcher (no manual build needed)
+#   [ ] CHANGELOG.md Unreleased section updated if user-facing

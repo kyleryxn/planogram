@@ -12,7 +12,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:cdn.simpleicons.org)",
       "Bash(git checkout *)",
-      "PowerShell(Get-Command *)"
+      "PowerShell(Get-Command *)",
+      "Bash(Test-Path C:\\\\Users\\\\Kyle\\\\Documents\\\\Repositories\\\\Python\\\\planogram\\\\docs *)"
     ]
   }
 }
