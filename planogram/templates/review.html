@@ -17,33 +17,56 @@
     <input type="hidden" name="session_id" value="{{ session_id }}">
 
     <div class="bulk-name">
-        <label for="bulk-event-name">Event name for all shifts:</label>
-        <input type="text" id="bulk-event-name" placeholder="e.g. Work" oninput="applyBulkName(this.value)">
-        <label for="notification-minutes">Notify before:</label>
-        <select id="notification-minutes" name="notification_minutes">
-            <option value="">Calendar default</option>
-            <option value="0">None</option>
-            <option value="10">10 minutes</option>
-            <option value="30" selected>30 minutes</option>
-            <option value="60">1 hour</option>
-            <option value="120">2 hours</option>
-            <option value="1440">1 day</option>
-        </select>
-        <label for="repeat-weeks">Also push for:</label>
-        <select id="repeat-weeks" name="repeat_weeks">
-            <option value="0">This week only</option>
-            <option value="1">1 additional week</option>
-            <option value="2">2 additional weeks</option>
-            <option value="3">3 additional weeks</option>
-            <option value="4">4 additional weeks</option>
-            <option value="5">5 additional weeks</option>
-            <option value="6">6 additional weeks</option>
-            <option value="7">7 additional weeks</option>
-            <option value="8">8 additional weeks</option>
-            <option value="9">9 additional weeks</option>
-            <option value="10">10 additional weeks</option>
-            <option value="11">11 additional weeks</option>
-        </select>
+        <div class="bulk-field">
+            <label for="bulk-event-name">Event name for all shifts:</label>
+            <input type="text" id="bulk-event-name" placeholder="e.g. Work" oninput="applyBulkName(this.value)">
+        </div>
+        <div class="bulk-field">
+            <label for="notification-minutes">Notify before:</label>
+            <select id="notification-minutes" name="notification_minutes">
+                <option value="">Calendar default</option>
+                <option value="0">None</option>
+                <option value="10">10 minutes</option>
+                <option value="30" selected>30 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="120">2 hours</option>
+                <option value="1440">1 day</option>
+            </select>
+        </div>
+        <div class="bulk-field">
+            <label for="repeat-weeks">Also push for:</label>
+            <select id="repeat-weeks" name="repeat_weeks">
+                <option value="0">This week only</option>
+                <option value="1">1 additional week</option>
+                <option value="2">2 additional weeks</option>
+                <option value="3">3 additional weeks</option>
+                <option value="4">4 additional weeks</option>
+                <option value="5">5 additional weeks</option>
+                <option value="6">6 additional weeks</option>
+                <option value="7">7 additional weeks</option>
+                <option value="8">8 additional weeks</option>
+                <option value="9">9 additional weeks</option>
+                <option value="10">10 additional weeks</option>
+                <option value="11">11 additional weeks</option>
+            </select>
+        </div>
+        <div class="bulk-field">
+            <label>Color for all shifts:</label>
+            <div id="bulk-color-picker">
+                <span class="swatch active" data-color="" style="background:#e0e0e0" title="Default"></span>
+                <span class="swatch" data-color="1"  style="background:#7986CB" title="Lavender"></span>
+                <span class="swatch" data-color="2"  style="background:#33B679" title="Sage"></span>
+                <span class="swatch" data-color="3"  style="background:#8E24AA" title="Grape"></span>
+                <span class="swatch" data-color="4"  style="background:#E67C73" title="Flamingo"></span>
+                <span class="swatch" data-color="5"  style="background:#F6BF26" title="Banana"></span>
+                <span class="swatch" data-color="6"  style="background:#F4511E" title="Tangerine"></span>
+                <span class="swatch" data-color="7"  style="background:#039BE5" title="Peacock"></span>
+                <span class="swatch" data-color="8"  style="background:#616161" title="Graphite"></span>
+                <span class="swatch" data-color="9"  style="background:#3F51B5" title="Blueberry"></span>
+                <span class="swatch" data-color="10" style="background:#0B8043" title="Basil"></span>
+                <span class="swatch" data-color="11" style="background:#D50000" title="Tomato"></span>
+            </div>
+        </div>
     </div>
 
     <div class="table-wrap">

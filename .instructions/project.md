@@ -32,6 +32,10 @@ This serves two purposes:
 - **Fixed** for any bug fixes.
 - **Security** in case of vulnerabilities.
 
+## SCSS Compilation
+
+IntelliJ's file watcher automatically compiles SCSS on save. Do not run `sass` commands manually.
+
 ## Dependency Formatting (`pyproject.toml`)
 
 Use `>=` with a space between the package name and version.

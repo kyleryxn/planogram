@@ -185,7 +185,7 @@ template {
 
 body {
   font-family: "Noto Sans", system-ui, sans-serif;
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1.5rem 1rem 3rem;
   color: #3E3B37;
@@ -593,7 +593,7 @@ table {
 table th {
   background: #3E3B37;
   color: #DAD7D5;
-  text-align: left;
+  text-align: center;
   padding: 0.55rem 0.7rem;
   white-space: nowrap;
 }
@@ -601,6 +601,12 @@ table td {
   border: 1px solid #DAD7D5;
   padding: 0.4rem 0.5rem;
   vertical-align: middle;
+}
+table td:nth-child(2) {
+  min-width: 10rem;
+}
+table td:nth-child(8) {
+  min-width: 16rem;
 }
 table td.num {
   text-align: center;
@@ -625,29 +631,50 @@ table td.del-cell {
 }
 
 .color-cell {
-  width: 7rem;
+  width: 15rem;
   vertical-align: middle;
   text-align: center;
+  padding-top: 1.4rem;
+  padding-bottom: 1.8rem;
 }
 
 .color-picker {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 3px;
+  column-gap: 12px;
+  row-gap: 30px;
   width: fit-content;
   margin: 0 auto;
 }
 
 .swatch {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   cursor: pointer;
   display: block;
+  position: relative;
+  overflow: visible;
   transition: transform 0.15s;
+}
+.swatch::after {
+  content: attr(title);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  color: #9B9490;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
 }
 .swatch:hover {
   transform: scale(1.2);
+}
+.swatch:hover::after {
+  opacity: 1;
 }
 .swatch.active {
   outline: 2px solid #3E3B37;
@@ -773,13 +800,51 @@ table td.del-cell {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
+  padding-bottom: 1.5rem;
 }
-.bulk-name label {
+
+.bulk-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.bulk-field label {
   font-weight: 600;
   white-space: nowrap;
 }
-.bulk-name input {
+.bulk-field input[type=text] {
   width: 16rem;
+}
+
+#bulk-color-picker {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-left: 0.25rem;
+}
+#bulk-color-picker .swatch {
+  position: relative;
+  overflow: visible;
+}
+#bulk-color-picker .swatch::after {
+  content: attr(title);
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  color: #9B9490;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+#bulk-color-picker .swatch:hover {
+  transform: scale(1.4);
+}
+#bulk-color-picker .swatch:hover::after {
+  opacity: 1;
 }
 
 .actions {

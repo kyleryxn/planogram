@@ -10,7 +10,9 @@
       "Bash(poetry remove *)",
       "WebFetch(domain:lucide.dev)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:cdn.simpleicons.org)"
+      "WebFetch(domain:cdn.simpleicons.org)",
+      "Bash(git checkout *)",
+      "PowerShell(Get-Command *)"
     ]
   }
 }
