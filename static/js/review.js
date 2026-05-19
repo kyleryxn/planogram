@@ -35,6 +35,17 @@ function applyBulkName(value) {
     });
 }
 
+function applyBulkColor(colorValue) {
+    document.querySelectorAll('input[name^="color_id_"]').forEach(input => {
+        input.value = colorValue;
+    });
+    document.querySelectorAll('#event-rows .color-picker').forEach(picker => {
+        picker.querySelectorAll('.swatch').forEach(s => {
+            s.classList.toggle('active', s.dataset.color === colorValue);
+        });
+    });
+}
+
 document.querySelectorAll('#event-rows tr').forEach(row => {
     updateRowDuration(row);
     row.querySelectorAll('input[name^="start_time_"], input[name^="end_time_"]').forEach(input => {
@@ -42,16 +53,30 @@ document.querySelectorAll('#event-rows tr').forEach(row => {
     });
 });
 
-document.querySelectorAll('.color-picker').forEach(picker => {
+document.querySelectorAll('#event-rows .color-picker').forEach(picker => {
     picker.querySelectorAll('.swatch').forEach(swatch => {
         swatch.addEventListener('click', () => {
             picker.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
             swatch.classList.add('active');
             const input = picker.parentNode.querySelector('input[type="hidden"]');
             if (input) input.value = swatch.dataset.color;
+            // Individual change — clear bulk picker's active state
+            const bulkPicker = document.getElementById('bulk-color-picker');
+            if (bulkPicker) bulkPicker.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
         });
     });
 });
+
+const bulkPicker = document.getElementById('bulk-color-picker');
+if (bulkPicker) {
+    bulkPicker.querySelectorAll('.swatch').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            bulkPicker.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+            applyBulkColor(swatch.dataset.color);
+        });
+    });
+}
 
 async function initAutocomplete() {
     const { AutocompleteSuggestion } = await google.maps.importLibrary('places');

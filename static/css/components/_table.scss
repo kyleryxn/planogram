@@ -15,7 +15,7 @@ table {
     th {
         background: $color-header-bg;
         color: $color-header-text;
-        text-align: left;
+        text-align: center;
         padding: 0.55rem 0.7rem;
         white-space: nowrap;
     }
@@ -24,6 +24,14 @@ table {
         border: 1px solid $color-border;
         padding: 0.4rem 0.5rem;
         vertical-align: middle;
+
+        &:nth-child(2) {
+            min-width: 10rem;
+        }
+
+        &:nth-child(8) {
+            min-width: 16rem;
+        }
 
         &.num {
             text-align: center;
@@ -53,29 +61,52 @@ table {
 }
 
 .color-cell {
-    width: 7rem;
+    width: 15rem;
     vertical-align: middle;
     text-align: center;
+    padding-top: 1.4rem;
+    padding-bottom: 1.8rem;
 }
 
 .color-picker {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 3px;
+    column-gap: 12px;
+    row-gap: 30px;
     width: fit-content;
     margin: 0 auto;
 }
 
 .swatch {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     cursor: pointer;
     display: block;
+    position: relative;
+    overflow: visible;
     transition: transform 0.15s;
+
+    &::after {
+        content: attr(title);
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.6rem;
+        color: $color-muted;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s;
+    }
 
     &:hover {
         transform: scale(1.2);
+
+        &::after {
+            opacity: 1;
+        }
     }
 
     &.active {
