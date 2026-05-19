@@ -32,9 +32,15 @@ This serves two purposes:
 - **Fixed** for any bug fixes.
 - **Security** in case of vulnerabilities.
 
-## SCSS
+## SCSS, JS, and CSS Minification
 
-IntelliJ's file watcher automatically compiles SCSS on save. Do not run `sass` commands manually.
+IntelliJ file watchers handle all compilation and minification automatically on save:
+
+- **SCSS** → compiled by `sass`
+- **JS** → minified by `uglifyjs`
+- **CSS** → minified by `csso`
+
+Do not run any of these commands manually.
 
 Before writing any hardcoded CSS value, check `static/css/abstracts/_variables.scss` first and use the matching variable if one exists.
 
