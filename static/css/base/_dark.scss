@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 // Dark mode — roles reassigned from the light palette:
 // charcoal-brown (#3E3B37): was text → now surface/borders
 // dust-grey (#DAD7D5):      was borders → now text
@@ -20,11 +22,15 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
     body {
         background: $dk-bg;
-        color: $dk-text;
+        color: $color-bg;
     }
 
     header .tagline {
         color: $dk-muted;
+    }
+
+    p {
+        color: $color-bg;
     }
 
     .theme-toggle {
@@ -50,6 +56,7 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
         td {
             border-color: $dk-border;
+            color: $color-bg;
 
             &.num {
                 color: $dk-muted;
@@ -113,11 +120,19 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
         outline-color: $dk-text;
     }
 
+    .swatch::after,
+    #bulk-color-picker .swatch::after {
+        color: $color-bg;
+    }
+
     .file-chosen,
     .loading-msg,
-    .hint,
     .meta {
         color: $dk-muted;
+    }
+
+    .hint {
+        color: $color-bg;
     }
 
     .label-optional {
@@ -126,7 +141,12 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
     footer {
         border-top-color: $dk-border;
+
+        p {
+            color: $color-bg;
+        }
     }
+
 }
 
 html[data-theme='dark'] {
