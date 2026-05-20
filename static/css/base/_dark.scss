@@ -141,10 +141,10 @@ $dk-secondary-hover: #4a4742; // charcoal-brown lightened
 
     footer {
         border-top-color: $dk-border;
+    }
 
-        p {
-            color: $color-bg;
-        }
+    .footer-list .github-logo {
+        color: #ffffff;
     }
 
 }

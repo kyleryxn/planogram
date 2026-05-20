@@ -306,8 +306,8 @@ html[data-theme=dark] .label-optional {
 html[data-theme=dark] footer {
   border-top-color: #3E3B37;
 }
-html[data-theme=dark] footer p {
-  color: #f5f4f3;
+html[data-theme=dark] .footer-list .github-logo {
+  color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -411,8 +411,8 @@ html[data-theme=dark] footer p {
   html:not([data-theme=light]) footer {
     border-top-color: #3E3B37;
   }
-  html:not([data-theme=light]) footer p {
-    color: #f5f4f3;
+  html:not([data-theme=light]) .footer-list .github-logo {
+    color: #ffffff;
   }
 }
 header {
@@ -487,11 +487,16 @@ footer {
   color: #9B9490;
 }
 
+.footer-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
 .footer-list a {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  vertical-align: middle;
   color: #108AB5;
   text-decoration: none;
   transition: color 0.2s;
@@ -511,6 +516,7 @@ footer {
   width: 0.85rem;
   height: 0.85rem;
   flex-shrink: 0;
+  color: #181717;
 }
 
 .btn-secondary, .btn-primary {
