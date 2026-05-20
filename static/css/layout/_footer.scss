@@ -19,11 +19,16 @@ footer {
     color: $color-muted;
 }
 
+.footer-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
 .footer-list a {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    vertical-align: middle;
     color: $color-primary;
     text-decoration: none;
     transition: color 0.2s;
@@ -44,4 +49,5 @@ footer {
     width: 0.85rem;
     height: 0.85rem;
     flex-shrink: 0;
+    color: #181717;
 }
