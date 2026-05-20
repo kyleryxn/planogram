@@ -51,9 +51,6 @@ def insert_bullet(text: str, section: str, bullet: str) -> str:
     bullet_line = f"- {bullet}"
 
     if sub_match:
-        # Subsection exists — append bullet after its last existing item
-        sub_body_start = unreleased_start + sub_match.end()
-
         # Find the next subsection or end of [Unreleased]
         next_sub = SUBSECTION_HEADER.search(unreleased_block, sub_match.end())
         if next_sub:
@@ -88,7 +85,7 @@ def main() -> None:
 
     # Idempotency: skip if bullet already present
     if f"- {bullet}" in text:
-        print(f"Bullet already present — skipping.")
+        print("Bullet already present — skipping.")
         return
 
     updated = insert_bullet(text, args.section, bullet)
