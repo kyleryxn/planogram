@@ -72,13 +72,16 @@ def insert_bullet(text: str, section: str, bullet: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--section", choices=sorted(VALID_SECTIONS))
+    parser.add_argument("--section", default="")
     parser.add_argument("--title", default="")
     args = parser.parse_args()
 
     if not args.section or not args.title:
         print("No changelog section/title provided — skipping.")
         return
+
+    if args.section not in VALID_SECTIONS:
+        sys.exit(f"ERROR: invalid section '{args.section}' (choose from {sorted(VALID_SECTIONS)})")
 
     text = load()
     bullet = args.title.strip()
